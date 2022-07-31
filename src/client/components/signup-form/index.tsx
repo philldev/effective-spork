@@ -1,23 +1,25 @@
 import { useForm, zodResolver } from '@mantine/form'
 import { useEffect } from 'react'
-import { loginSchema, LoginSchema } from '../../models/login'
-import { trpc } from '../../utils/trpc'
+import { SignupSchema, signupSchema } from '../../../models/signup'
+import { setTokenCookie } from '../../../utils/cookies'
+import { trpc } from '../../../utils/trpc'
 import { TextInput } from '../text-input'
 
-export const LoginForm = () => {
-	const form = useForm<LoginSchema>({
+export const SignupForm = () => {
+	const form = useForm<SignupSchema>({
 		initialValues: {
 			email: '',
 			password: '',
+			fullName: '',
 		},
-		validate: zodResolver(loginSchema),
+		validate: zodResolver(signupSchema),
 	})
 
-	const signupMutation = trpc.useMutation(['auth.login'])
+	const signupMutation = trpc.useMutation(['auth.signup'])
 
 	useEffect(() => {
 		if (signupMutation.isSuccess) {
-			alert(signupMutation.data)
+			setTokenCookie(signupMutation.data.token)
 		}
 	}, [signupMutation.isSuccess, signupMutation.data])
 
@@ -28,6 +30,12 @@ export const LoginForm = () => {
 			})}
 			className='space-y-3'
 		>
+			<TextInput
+				name='fullName'
+				label='Full name'
+				error={form.errors.fullName}
+				{...form.getInputProps('fullName')}
+			/>
 			<TextInput
 				name='email'
 				label='Email'
@@ -45,7 +53,7 @@ export const LoginForm = () => {
 
 			<div>
 				<button className='w-full h-10 px-3 bg-blue-500 focus:ring-blue-500 text-white rounded mt-4 block font-bold text-sm'>
-					Login
+					Create Account
 				</button>
 			</div>
 		</form>

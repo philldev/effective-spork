@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { LoginForm } from '../components/login-form'
-import { SignupForm } from '../components/signup-form'
+import { LoginForm } from '../client/components/login-form'
+import { SignupForm } from '../client/components/signup-form'
 
 const SignupPage = () => {
 	const [type, setType] = useState<'login' | 'register'>('login')
