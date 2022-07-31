@@ -1,3 +1,4 @@
+import { SignupForm } from '../components/signup-form'
 import { TextInput } from '../components/text-input'
 
 const SignupPage = () => {
@@ -8,19 +9,7 @@ const SignupPage = () => {
 					<h1 className='font-bold'>Welcome to POS app</h1>
 					<p className='text-sm'>Create account to continue</p>
 				</div>
-				<form className='space-y-3'>
-					<TextInput label='Full name' />
-					<TextInput label='Email' type='email' />
-					<TextInput label='Password' type='password' />
-					<div>
-						<small>By creating account you agree with tnc</small>
-					</div>
-					<div>
-						<button className='w-full h-10 px-3 bg-blue-500 focus:ring-blue-500 text-white rounded mt-4 block font-bold text-sm'>
-							Create Account
-						</button>
-					</div>
-				</form>
+				<SignupForm />
 			</div>
 		</div>
 	)
