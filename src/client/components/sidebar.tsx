@@ -4,7 +4,7 @@ import { ButtonHTMLAttributes, HTMLProps, ReactNode } from 'react'
 
 export const Sidebar = () => {
 	return (
-		<div className='w-[225px] flex flex-col'>
+		<div className='w-[225px] flex flex-col border-r shadow'>
 			<div className='flex flex-col flex-1 p-4'>
 				<div className='flex flex-col space-y-1'>
 					<NavItem href='/app'>Dashboard</NavItem>

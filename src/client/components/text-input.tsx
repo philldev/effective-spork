@@ -30,7 +30,7 @@ export const TextInput: FunctionComponent<TextInputProps> = ({
 				id={id}
 				className={`${className} h-10 rounded ${
 					error ? 'border-red-300' : 'border-gray-300'
-				} focus:ring-blue-500 focus:border-blue-500`}
+				} focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:text-gray-700`}
 				type={type ?? 'text'}
 				{...props}
 			/>
