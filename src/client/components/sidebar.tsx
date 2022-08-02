@@ -8,6 +8,7 @@ export const Sidebar = () => {
 			<div className='flex flex-col flex-1 p-4'>
 				<div className='flex flex-col space-y-1'>
 					<NavItem href='/app'>Dashboard</NavItem>
+					<NavItem href='/app/products'>Products</NavItem>
 					<NavItem href='/app/account'>Account</NavItem>
 				</div>
 				<div className='flex flex-col space-y-1 mt-auto'>
