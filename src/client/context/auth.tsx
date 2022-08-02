@@ -22,15 +22,14 @@ const getIsAuthRoutes = (path: string) => {
 }
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const { data: user, isLoading } = trpc.useQuery(['user.currentUser'], {
-		enabled: getTokenCookie() !== undefined,
-	})
+	const { data, isLoading } = trpc.useQuery(['auth.status'])
 	const router = useRouter()
 
 	const isProtectedRoutes = getIsProtectedRoutes(router.asPath)
 	const isAuthRoutes = getIsAuthRoutes(router.asPath)
+	const notAuthorized = isProtectedRoutes && !data?.loggedIn && !isLoading
 
-	const notAuthorized = isProtectedRoutes && !user && !isLoading
+	console.log(data)
 
 	useEffect(() => {
 		if (notAuthorized && !isAuthRoutes) {
@@ -40,11 +39,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	}, [notAuthorized, isAuthRoutes])
 
 	useEffect(() => {
-		if (isAuthRoutes && !isLoading && user) {
+		if (isAuthRoutes && !isLoading && data?.user) {
 			router.push('/app')
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuthRoutes, isLoading, user])
+	}, [isAuthRoutes, isLoading, data?.user])
 
 	if (useIsClient() && isProtectedRoutes && isLoading) {
 		return (
@@ -55,7 +54,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	}
 
 	return (
-		<AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+		<AuthContext.Provider
+			value={{
+				user: data?.user,
+			}}
+		>
+			{children}
+		</AuthContext.Provider>
 	)
 }
 

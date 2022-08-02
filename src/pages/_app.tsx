@@ -1,15 +1,31 @@
-// src/pages/_app.tsx
 import { withTRPC } from '@trpc/next'
-import type { AppRouter } from '../server/router'
-import type { AppType } from 'next/dist/shared/lib/utils'
+import { NextComponentType, NextPage } from 'next'
+import { AppProps, AppInitialProps } from 'next/app'
+import { AppContextType } from 'next/dist/shared/lib/utils'
+import { ReactElement, ReactNode } from 'react'
 import superjson from 'superjson'
-import '../styles/globals.css'
-import Cookies from 'js-cookie'
-import { getTokenCookie } from '../utils/cookies'
 import { AuthProvider } from '../client/context/auth'
+import type { AppRouter } from '../server/router'
+import '../styles/globals.css'
+import { getTokenCookie } from '../utils/cookies'
 
-const MyApp: AppType = ({ Component, pageProps }) => {
-	return (
+export type NextPageWithLayout = NextPage & {
+	getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+	Component: NextPageWithLayout
+}
+
+//@ts-ignore
+const MyApp: NextComponentType<
+	AppContextType,
+	AppInitialProps,
+	AppPropsWithLayout
+> = ({ Component, pageProps }) => {
+	const getLayout = Component.getLayout ?? ((page) => page)
+
+	return getLayout(
 		<AuthProvider>
 			<Component {...pageProps} />
 		</AuthProvider>
@@ -33,13 +49,15 @@ export default withTRPC<AppRouter>({
 		 * @link https://trpc.io/docs/ssr
 		 */
 		const url = `${getBaseUrl()}/api/trpc`
-		const token = getTokenCookie()
 
 		return {
 			url,
 			transformer: superjson,
-			headers: {
-				Authorization: token ? `Bearer ${token}` : undefined,
+			headers() {
+				const token = getTokenCookie()
+				return {
+					Authorization: token ? `Bearer ${token}` : undefined,
+				}
 			},
 			/**
 			 * @link https://react-query.tanstack.com/reference/QueryClient

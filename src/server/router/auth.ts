@@ -6,6 +6,14 @@ import { createToken } from '../../utils/jwt'
 import { loginSchema } from '../../models/login'
 
 export const authRouter = createRouter()
+	.query('status', {
+		resolve({ ctx }) {
+			return {
+				loggedIn: ctx.user ? true : false,
+				user: ctx.user,
+			}
+		},
+	})
 	.mutation('login', {
 		input: loginSchema,
 		async resolve({ input, ctx }) {

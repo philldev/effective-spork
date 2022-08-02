@@ -1,8 +1,10 @@
 import { useForm, zodResolver } from '@mantine/form'
+import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { loginSchema, LoginSchema } from '../../../models/login'
 import { setTokenCookie } from '../../../utils/cookies'
 import { trpc } from '../../../utils/trpc'
+import { useAuth } from '../../context/auth'
 import { TextInput } from '../text-input'
 
 export const LoginForm = () => {
@@ -14,18 +16,19 @@ export const LoginForm = () => {
 		validate: zodResolver(loginSchema),
 	})
 
-	const signupMutation = trpc.useMutation(['auth.login'])
+	const ctx = trpc.useContext()
 
-	useEffect(() => {
-		if (signupMutation.isSuccess) {
-			setTokenCookie(signupMutation.data.token)
-		}
-	}, [signupMutation.isSuccess, signupMutation.data])
+	const loginMutation = trpc.useMutation(['auth.login'], {
+		onSuccess(data) {
+			setTokenCookie(data.token)
+			ctx.queryClient.invalidateQueries()
+		},
+	})
 
 	return (
 		<form
 			onSubmit={form.onSubmit((data) => {
-				signupMutation.mutate(data)
+				loginMutation.mutate(data)
 			})}
 			className='space-y-3'
 		>

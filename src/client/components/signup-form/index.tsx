@@ -15,13 +15,13 @@ export const SignupForm = () => {
 		validate: zodResolver(signupSchema),
 	})
 
-	const signupMutation = trpc.useMutation(['auth.signup'])
-
-	useEffect(() => {
-		if (signupMutation.isSuccess) {
-			setTokenCookie(signupMutation.data.token)
-		}
-	}, [signupMutation.isSuccess, signupMutation.data])
+	const ctx = trpc.useContext()
+	const signupMutation = trpc.useMutation(['auth.signup'], {
+		onSuccess(data, variables, context) {
+			setTokenCookie(data.token)
+			ctx.queryClient.invalidateQueries()
+		},
+	})
 
 	return (
 		<form
