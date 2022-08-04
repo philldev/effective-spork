@@ -1,11 +1,9 @@
+import { Input, TextInput } from '@mantine/core'
 import { useForm, zodResolver } from '@mantine/form'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useId } from 'react'
 import { loginSchema, LoginSchema } from '../../../models/login'
 import { setTokenCookie } from '../../../utils/cookies'
 import { trpc } from '../../../utils/trpc'
-import { useAuth } from '../../context/auth'
-import { TextInput } from '../text-input'
 
 export const LoginForm = () => {
 	const form = useForm<LoginSchema>({
@@ -32,7 +30,9 @@ export const LoginForm = () => {
 			})}
 			className='space-y-3'
 		>
+			<Input />
 			<TextInput
+				id={useId()}
 				name='email'
 				label='Email'
 				type='email'

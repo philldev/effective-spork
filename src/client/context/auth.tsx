@@ -31,19 +31,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	console.log(data)
 
-	useEffect(() => {
-		if (notAuthorized && !isAuthRoutes) {
-			router.push('/signin')
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [notAuthorized, isAuthRoutes])
+	// useEffect(() => {
+	// 	if (notAuthorized && !isAuthRoutes) {
+	// 		router.push('/signin')
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [notAuthorized, isAuthRoutes])
 
-	useEffect(() => {
-		if (isAuthRoutes && !isLoading && data?.user) {
-			router.push('/app')
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [isAuthRoutes, isLoading, data?.user])
+	// useEffect(() => {
+	// 	if (isAuthRoutes && !isLoading && data?.user) {
+	// 		router.push('/app')
+	// 	}
+	// 	// eslint-disable-next-line react-hooks/exhaustive-deps
+	// }, [isAuthRoutes, isLoading, data?.user])
 
 	if (useIsClient() && isProtectedRoutes && isLoading) {
 		return (

@@ -1,12 +1,13 @@
+import { MantineProvider } from '@mantine/core'
 import { withTRPC } from '@trpc/next'
 import { NextComponentType, NextPage } from 'next'
 import { AppProps, AppInitialProps } from 'next/app'
 import { AppContextType } from 'next/dist/shared/lib/utils'
+import Head from 'next/head'
 import { ReactElement, ReactNode } from 'react'
 import superjson from 'superjson'
 import { AuthProvider } from '../client/context/auth'
 import type { AppRouter } from '../server/router'
-import '../styles/globals.css'
 import { getTokenCookie } from '../utils/cookies'
 
 export type NextPageWithLayout = NextPage & {
@@ -26,9 +27,27 @@ const MyApp: NextComponentType<
 	const getLayout = Component.getLayout ?? ((page) => page)
 
 	return getLayout(
-		<AuthProvider>
-			<Component {...pageProps} />
-		</AuthProvider>
+		<>
+			<Head>
+				<title>Page title</title>
+				<meta
+					name='viewport'
+					content='minimum-scale=1, initial-scale=1, width=device-width'
+				/>
+			</Head>
+			<AuthProvider>
+				<MantineProvider
+					withGlobalStyles
+					withNormalizeCSS
+					theme={{
+						/** Put your mantine theme override here */
+						colorScheme: 'light',
+					}}
+				>
+					<Component {...pageProps} />
+				</MantineProvider>
+			</AuthProvider>
+		</>
 	)
 }
 
