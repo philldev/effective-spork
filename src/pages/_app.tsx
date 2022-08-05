@@ -26,7 +26,7 @@ const MyApp: NextComponentType<
 > = ({ Component, pageProps }) => {
 	const getLayout = Component.getLayout ?? ((page) => page)
 
-	return getLayout(
+	return (
 		<>
 			<Head>
 				<title>POS APP</title>
@@ -43,10 +43,10 @@ const MyApp: NextComponentType<
 					withNormalizeCSS
 					theme={{
 						/** Put your mantine theme override here */
-						colorScheme: 'light',
+						primaryColor: 'dark',
 					}}
 				>
-					<Component {...pageProps} />
+					{getLayout(<Component {...pageProps} />)}
 				</MantineProvider>
 			</AuthProvider>
 		</>
