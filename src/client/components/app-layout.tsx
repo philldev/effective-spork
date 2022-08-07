@@ -1,6 +1,6 @@
 import { AppShell } from '@mantine/core'
 import { ReactElement } from 'react'
-import { DoubleNavbar } from './navbar'
+import { NavbarMinimal } from './navbar'
 
 interface AppLayoutProps {
 	children?: ReactElement
@@ -10,7 +10,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 	return (
 		<AppShell
 			padding='md'
-			navbar={<DoubleNavbar />}
+			navbar={<NavbarMinimal />}
 			styles={(theme) => ({
 				main: {
 					backgroundColor:
@@ -19,9 +19,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 							: theme.colors.gray[0],
 
 					padding: theme.spacing.lg,
-					marginLeft: 60,
-					flex: '1',
-					width: 'auto',
+					marginLeft: 80,
 				},
 			})}
 		>
