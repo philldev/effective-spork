@@ -1,4 +1,3 @@
-import { AppLayout } from '../client/components/app-layout'
 import { NextPageWithLayout } from './_app'
 
 const Home: NextPageWithLayout = () => {
@@ -6,7 +5,7 @@ const Home: NextPageWithLayout = () => {
 }
 
 Home.getLayout = (page) => {
-	return <AppLayout>{page}</AppLayout>
+	return <div>{page}</div>
 }
 
 export default Home
