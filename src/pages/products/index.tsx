@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Text, Title } from '@mantine/core'
+import { Box, Breadcrumbs, Grid, Stack, Text, Title } from '@mantine/core'
 import { AppLayout } from '../../client/components/app-layout'
 import { ProductList } from '../../client/components/products/product-list'
 import { createBreadcrumbs } from '../../client/utils/create-breadcrumbs'
@@ -20,17 +20,15 @@ const breadcrumbs = createBreadcrumbs([
 ])
 
 const Home: NextPageWithLayout = () => {
-	return (
-		<Box>
-			<Breadcrumbs>{breadcrumbs}</Breadcrumbs>
-			<Title mb='xl'>Products</Title>
-			<ProductList data={data} />
-		</Box>
-	)
+	return <ProductList data={data} />
 }
 
 Home.getLayout = (page) => {
-	return <AppLayout>{page}</AppLayout>
+	return (
+		<AppLayout title='Products' breadcrumbs={breadcrumbs}>
+			{page}
+		</AppLayout>
+	)
 }
 
 export default Home

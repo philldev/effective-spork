@@ -9,6 +9,8 @@ import {
 	Center,
 	TextInput,
 	Button,
+	ActionIcon,
+	Divider,
 } from '@mantine/core'
 import { keys } from '@mantine/utils'
 import {
@@ -17,6 +19,8 @@ import {
 	TbChevronUp,
 	TbSearch,
 	TbPlus,
+	TbEdit,
+	TbTrash,
 } from 'react-icons/tb'
 import Link from 'next/link'
 
@@ -56,9 +60,9 @@ interface TableSortProps {
 
 interface ThProps {
 	children: React.ReactNode
-	reversed: boolean
-	sorted: boolean
-	onSort(): void
+	reversed?: boolean
+	sorted?: boolean
+	onSort?(): void
 }
 
 function Th({ children, reversed, sorted, onSort }: ThProps) {
@@ -137,11 +141,30 @@ export function ProductList({ data }: TableSortProps) {
 			<td>{row.name}</td>
 			<td>{row.price}</td>
 			<td>{row.category}</td>
+			<td>
+				<Group>
+					<ActionIcon variant='filled' color='yellow'>
+						<TbEdit />
+					</ActionIcon>
+					<ActionIcon variant='filled' color='red'>
+						<TbTrash />
+					</ActionIcon>
+				</Group>
+			</td>
 		</tr>
 	))
 
 	return (
-		<ScrollArea>
+		<ScrollArea
+			p='md'
+			sx={(theme) => ({
+				flex: '1',
+				border: '1px solid',
+				borderColor: theme.colors.gray[3],
+				background: '#fff',
+				borderRadius: theme.radius.md,
+			})}
+		>
 			<Group mb='md'>
 				<Link href='/products/new'>
 					<Button leftIcon={<TbPlus size={14} />}>Create product</Button>
@@ -159,6 +182,7 @@ export function ProductList({ data }: TableSortProps) {
 					onChange={handleSearchChange}
 				/>
 			</Group>
+			<Divider my='lg' />
 			<Table
 				horizontalSpacing='md'
 				verticalSpacing='xs'
@@ -178,7 +202,7 @@ export function ProductList({ data }: TableSortProps) {
 							reversed={reverseSortDirection}
 							onSort={() => setSorting('price')}
 						>
-							Price $
+							Price
 						</Th>
 						<Th
 							sorted={sortBy === 'category'}
@@ -187,6 +211,7 @@ export function ProductList({ data }: TableSortProps) {
 						>
 							Category
 						</Th>
+						<Th>Actions</Th>
 					</tr>
 				</thead>
 				<tbody>

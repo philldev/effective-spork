@@ -1,4 +1,4 @@
-import jwt, { JwtPayload } from 'jsonwebtoken'
+import jwt, { JwtPayload, TokenExpiredError } from 'jsonwebtoken'
 
 const SECRET = 'SECRET'
 
@@ -27,7 +27,11 @@ export const validateToken = (token: string) => {
 			sub: string
 		} & JwtPayload
 	} catch (error) {
-		console.log(error)
+		if (error instanceof TokenExpiredError) {
+			if (error.message !== 'jwt expired') {
+				console.log(error.message)
+			}
+		}
 		return null
 	}
 }

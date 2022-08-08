@@ -6,20 +6,10 @@ import {
 	Stack,
 	TextInput,
 } from '@mantine/core'
-
-const useStyles = createStyles((theme) => ({
-	box: {
-		borderWidth: 1,
-		borderStyle: 'solid',
-		borderColor: theme.colors.gray[3],
-		background: theme.colorScheme === 'dark' ? theme.colors.dark[5] : '#fff',
-		borderRadius: theme.radius.md,
-		padding: theme.spacing.xl,
-	},
-}))
+import { useLayoutStyles } from '../../styles/layout'
 
 export function ProductForm() {
-	const { classes } = useStyles()
+	const { classes } = useLayoutStyles()
 	return (
 		<Box className={classes.box}>
 			<form>

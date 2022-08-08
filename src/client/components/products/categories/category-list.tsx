@@ -152,7 +152,16 @@ export function CategoryList({ data }: TableSortProps) {
 	))
 
 	return (
-		<ScrollArea>
+		<ScrollArea
+			p='md'
+			sx={(theme) => ({
+				flex: '1',
+				border: '1px solid',
+				borderColor: theme.colors.gray[3],
+				background: '#fff',
+				borderRadius: theme.radius.md,
+			})}
+		>
 			<Group mb='md'>
 				<Link href='/products/categories/new' passHref>
 					<Button leftIcon={<TbPlus size={14} />}>Create category</Button>
@@ -188,13 +197,7 @@ export function CategoryList({ data }: TableSortProps) {
 						>
 							Product Count
 						</Th>
-						<Th
-						// sorted={sortBy === 'category'}
-						// reversed={reverseSortDirection}
-						// onSort={() => setSorting('category')}
-						>
-							Actions
-						</Th>
+						<Th>Actions</Th>
 					</tr>
 				</thead>
 				<tbody>

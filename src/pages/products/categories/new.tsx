@@ -20,17 +20,15 @@ const breadcrumbs = createBreadcrumbs([
 ])
 
 const Home: NextPageWithLayout = () => {
-	return (
-		<Box>
-			<Breadcrumbs>{breadcrumbs}</Breadcrumbs>
-			<Title mb='xl'>New Category</Title>
-			<CategoryForm />
-		</Box>
-	)
+	return <CategoryForm />
 }
 
 Home.getLayout = (page) => {
-	return <AppLayout>{page}</AppLayout>
+	return (
+		<AppLayout breadcrumbs={breadcrumbs} title='New Category'>
+			{page}
+		</AppLayout>
+	)
 }
 
 export default Home

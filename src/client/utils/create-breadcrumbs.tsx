@@ -1,4 +1,4 @@
-import { Anchor } from '@mantine/core'
+import { Anchor, Button } from '@mantine/core'
 import Link from 'next/link'
 
 interface Item {
@@ -8,8 +8,8 @@ interface Item {
 
 export function createBreadcrumbs(data: Item[]) {
 	return data.map((item, index) => (
-		<Anchor component={Link} href={item.href} key={index}>
-			{item.title}
-		</Anchor>
+		<Link href={item.href} passHref key={index}>
+			<Anchor size='xs'>{item.title}</Anchor>
+		</Link>
 	))
 }
