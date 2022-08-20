@@ -5,4 +5,4 @@ const Home: NextPageWithLayout = () => {
 	return <div></div>
 }
 
-export default withAppLayout(Home)
+export default Home

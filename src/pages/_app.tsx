@@ -1,10 +1,14 @@
-import { MantineProvider } from '@mantine/core'
+import {
+	ColorScheme,
+	ColorSchemeProvider,
+	MantineProvider,
+} from '@mantine/core'
 import { withTRPC } from '@trpc/next'
 import { NextComponentType, NextPage } from 'next'
 import { AppProps, AppInitialProps } from 'next/app'
 import { AppContextType } from 'next/dist/shared/lib/utils'
 import Head from 'next/head'
-import { ReactElement, ReactNode } from 'react'
+import { ReactElement, ReactNode, useState } from 'react'
 import superjson from 'superjson'
 import { AuthProvider } from '../client/context/auth'
 import type { AppRouter } from '../server/router'
@@ -26,6 +30,11 @@ const MyApp: NextComponentType<
 > = ({ Component, pageProps }) => {
 	const getLayout = Component.getLayout ?? ((page) => page)
 
+	const [colorScheme, setColorScheme] = useState<ColorScheme>('dark')
+
+	const toggleColorScheme = (value?: ColorScheme) =>
+		setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'))
+
 	return (
 		<>
 			<Head>
@@ -38,16 +47,22 @@ const MyApp: NextComponentType<
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<AuthProvider>
-				<MantineProvider
-					withGlobalStyles
-					withNormalizeCSS
-					theme={{
-						/** Put your mantine theme override here */
-						primaryColor: 'dark',
-					}}
+				<ColorSchemeProvider
+					colorScheme={colorScheme}
+					toggleColorScheme={toggleColorScheme}
 				>
-					{getLayout(<Component {...pageProps} />)}
-				</MantineProvider>
+					<MantineProvider
+						withGlobalStyles
+						withNormalizeCSS
+						theme={{
+							/** Put your mantine theme override here */
+							colorScheme,
+							primaryColor: 'dark',
+						}}
+					>
+						{getLayout(<Component {...pageProps} />)}
+					</MantineProvider>
+				</ColorSchemeProvider>
 			</AuthProvider>
 		</>
 	)
